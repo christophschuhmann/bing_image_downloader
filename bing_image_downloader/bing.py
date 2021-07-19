@@ -14,19 +14,25 @@ def find_between_r( s, first, last ):
     
 
 
-        results=[]
-        tmp1 = s.split(first)
+        captions=[]
+        urls=[]
+        tmp1 = s.split("murl&quot;:&quot;")
 
         for e in tmp1:
           try:
-            results.append (e.split(last)[0])
-            #print(e.split(last)[0])
+            captions.append (e.split("&quot;t&quot;:&quot;")[1].split("&quot")[0])
+            urls.append (e.split("&quot;")[0])
+            #print("xxx")
+            #print(e.split("&quot;t&quot;:&quot;")[1].split("&quot")[0])
+           
+            #print(e.split("&quot;")[0])
+            #print("xxx")
           except:
             pass
         
         start1= s.find(first)
         
-        return results
+        return captions, urls
         
 class Bing:
     def __init__(self, query, limit, output_dir, adult, timeout,  filters='', verbose=True):
@@ -104,29 +110,29 @@ class Bing:
             print("##### HTML #######")
 
 
-            captions=  find_between_r( html, ",&quot;desc&quot;:&quot;", "&quot" ) 
+            captions, urls=  find_between_r( html, ",&quot;desc&quot;:&quot;", "&quot" ) 
             for i in range(len(captions)):
-              if i ==0:
-                continue
+ 
 
               print("Caption "+str(i))
               print(captions[i])
+              print(urls[i])
             #print(html)
             if html ==  "":
                 print("[%] No more images are available")
                 break
-            links = re.findall('murl&quot;:&quot;(.*?)&quot;', html)
+            #links = re.findall('murl&quot;:&quot;(.*?)&quot;', html)
             if self.verbose:
-                print("[%] Indexed {} Images on Page {}.".format(len(links), self.page_counter + 1))
+                print("[%] Indexed {} Images on Page {}.".format(len(urls), self.page_counter + 1))
                 print("\n===============================================\n")
 
-            for i in range(len(links)):
+            for i in range(len(urls)):
                 if self.download_count < self.limit:
                     try:
-                      cap= captions[i+1]
+                      cap= captions[i]
                     except:
                       cap=self.query
-                    self.download_image(links[i])
+                    self.download_image(urls[i])
                     # save caption
                     
                     with open(self.output_dir.joinpath("Image_{}.{}".format(str(self.download_count), "txt")) , "w") as file_object:
