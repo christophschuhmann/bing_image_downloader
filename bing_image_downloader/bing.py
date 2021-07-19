@@ -79,6 +79,9 @@ class Bing:
                 
             self.save_image(link, self.output_dir.joinpath("Image_{}.{}".format(
                 str(self.download_count), file_type)))
+          
+
+
             if self.verbose:
                 print("[%] File Downloaded !\n")
 
@@ -117,9 +120,13 @@ class Bing:
                 print("[%] Indexed {} Images on Page {}.".format(len(links), self.page_counter + 1))
                 print("\n===============================================\n")
 
-            for link in links:
+            for i in range(len(links)):
                 if self.download_count < self.limit:
-                    self.download_image(link)
+                    self.download_image(links[i])
+                    # save caption
+                    
+                    with open(self.output_dir.joinpath("Image_{}.{}".format(str(self.download_count), "txt")) , "w") as file_object:
+                        file_object.write(captions[i+1])
 
             self.page_counter += 1
         print("\n\n[%] Done. Downloaded {} images.".format(self.download_count))
