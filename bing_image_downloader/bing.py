@@ -122,11 +122,16 @@ class Bing:
 
             for i in range(len(links)):
                 if self.download_count < self.limit:
+                    try:
+                      cap= captions[i+1]
+                    except:
+                      cap=query
                     self.download_image(links[i])
                     # save caption
                     
                     with open(self.output_dir.joinpath("Image_{}.{}".format(str(self.download_count), "txt")) , "w") as file_object:
-                        file_object.write(captions[i+1])
+                        file_object.write(cap)
+
 
             self.page_counter += 1
         print("\n\n[%] Done. Downloaded {} images.".format(self.download_count))
