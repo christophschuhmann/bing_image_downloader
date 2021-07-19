@@ -125,7 +125,7 @@ class Bing:
                     try:
                       cap= captions[i+1]
                     except:
-                      cap=query
+                      cap=self.query
                     self.download_image(links[i])
                     # save caption
                     
