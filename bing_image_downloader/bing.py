@@ -10,7 +10,24 @@ Python api to download image form Bing.
 Author: Guru Prasad (g.gaurav541@gmail.com)
 '''
 
+def find_between_r( s, first, last ):
+    
 
+
+        results=[]
+        tmp1 = s.split(first)
+
+        for e in tmp1:
+          try:
+            results.append (e.split(last)[0])
+            #print(e.split(last)[0])
+          except:
+            pass
+        
+        start1= s.find(first)
+        
+        return results
+        
 class Bing:
     def __init__(self, query, limit, output_dir, adult, timeout,  filters='', verbose=True):
         self.download_count = 0
@@ -81,6 +98,17 @@ class Bing:
             request = urllib.request.Request(request_url, None, headers=self.headers)
             response = urllib.request.urlopen(request)
             html = response.read().decode('utf8')
+            print("##### HTML #######")
+
+
+            captions=  find_between_r( html, ",&quot;desc&quot;:&quot;", "&quot" ) 
+            for i in range(len(captions)):
+              if i ==0:
+                continue
+
+              print("Caption "+str(i))
+              print(captions[i])
+            #print(html)
             if html ==  "":
                 print("[%] No more images are available")
                 break
