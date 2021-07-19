@@ -10,7 +10,7 @@ Python api to download image form Bing.
 Author: Guru Prasad (g.gaurav541@gmail.com)
 '''
 
-def find_between_r( s, first, last ):
+def find_urls_captions ( s, first, last ):
     
 
 
@@ -110,7 +110,7 @@ class Bing:
             print("##### HTML #######")
 
 
-            captions, urls=  find_between_r( html, ",&quot;desc&quot;:&quot;", "&quot" ) 
+            captions, urls=  find_urls_captions( html, ",&quot;desc&quot;:&quot;", "&quot" ) 
             for i in range(len(captions)):
  
 
